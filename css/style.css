@@ -1,0 +1,78 @@
+* {
+    margin:0;
+    padding:0;
+}
+img {
+    border:0;
+}
+ol,ul,li {
+    list-style:none;
+}
+h1 {
+    text-align: center;
+    margin: 20px 0;
+}
+#boardOut {
+    width:500px;
+    height:500px;
+    margin:20px auto;
+    border:2px solid #000;
+    background:#fdda9c;
+    position:relative;
+    overflow:hidden;
+}
+#board {
+    width: 550px;
+    height: 550px;
+    position: absolute;
+    left: -25px;
+    top: -25px;
+}
+#board li {
+    width: 50px;
+    height: 50px;
+    position: relative;
+    float: left;
+}
+#board li::before {
+    content: '';
+    width: 100%;
+    border-bottom: 1px solid #333;
+    position: absolute;
+    left: 0;
+    top: 50%;
+}
+#board li::after {
+    content: '';
+    height: 100%;
+    border-right: 1px solid #333;
+    position: absolute;
+    top: 0;
+    left: 50%;
+}
+#board li span {
+    width: 46px;
+    height: 46px;
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    background-color: #000;
+    border-radius: 50%;
+    z-index: 10;
+}
+#chessEnd {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 500px;
+    height: 500px;
+    background-color: transparent;
+    z-index: 100;
+}
+#btn {
+    text-align: center;
+}
+#btn button {
+    width: 80px;
+    height: 40px;
+}
