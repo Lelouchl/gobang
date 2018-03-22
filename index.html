@@ -7,7 +7,7 @@
 </head>
 <body>
 <div id="container">
-    <h1>五子棋</h1>
+    <h1>{{title}}</h1>
     <div id="boardOut">
         <ul id="board">
             <li v-if="restart" v-for="n in chessmanNum" @click="chess" isChess="true" :index="n"></li>

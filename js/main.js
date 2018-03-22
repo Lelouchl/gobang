@@ -2,14 +2,15 @@ let vm=new Vue({
     el:'#container',
     data:{
         chessRowsCols:11,//棋盘行列
-        chessmanNum:121,//棋子总数 行*列
+        chessmanNum:121,//棋子总数=行*列
         chessmanColor:true,//棋子颜色
         chessWhite:[],//白棋棋子
         chessBlack:[],//黑棋棋子
         chessPath:[],//棋子路径
         chessNums:1,//棋子数
         isShow:false,//判断胜负后不可继续落子
-        restart:true//重新开始棋局
+        restart:true,//重新开始棋局
+        title:'五子棋'
     },
     methods:{
         chess(e){
@@ -54,6 +55,7 @@ let vm=new Vue({
                 }
                 this.chessmanColor=!this.chessmanColor;//黑白棋子切换
                 if (this.isShow) {//不可落子状态改为可以
+                    this.title='五子棋';
                     this.isShow=false;
                 }
             }
@@ -62,7 +64,7 @@ let vm=new Vue({
             if (arr.length>=5) {
                 for (let i=0;i<arr.length;i++) {
                     if ((arr[i+4]-arr[i]==4) && ((arr[i]+arr[i+1]+arr[i+2]+arr[i+3]+arr[i+4])/5==arr[i+2])) {//横向
-                        alert(mes);
+                        this.title=mes;
                         this.isShow=true;
                         break;
                     }
@@ -71,7 +73,7 @@ let vm=new Vue({
                         if (arr[j]-arr[i]==S*this.chessRowsCols) {//纵向
                             S++;
                             if (S==5) {
-                                alert(mes);
+                                this.title=mes;
                                 this.isShow=true;
                                 break;
                             }
@@ -79,7 +81,7 @@ let vm=new Vue({
                         if (arr[j]-arr[i]==R*(this.chessRowsCols+1)) {//右斜
                             R++;
                             if (R==5) {
-                                alert(mes);
+                                this.title=mes;
                                 this.isShow=true;
                                 break;
                             }
@@ -87,7 +89,7 @@ let vm=new Vue({
                         if (arr[j]-arr[i]==L*(this.chessRowsCols-1)) {//右斜
                             L++;
                             if (L==5) {
-                                alert(mes);
+                                this.title=mes;
                                 this.isShow=true;
                                 break;
                             }
@@ -114,6 +116,7 @@ let vm=new Vue({
             this.chessPath=[];
             this.chessNums=1;
             this.restart=false;
+            this.title='五子棋';
             this.$nextTick(function () {
                 this.restart=true;
             });
