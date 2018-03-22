@@ -2,32 +2,59 @@ let vm=new Vue({
     el:'#container',
     data:{
         chessRowsCols:11,//棋盘行列
-        chessmanNum:121,
+        chessmanNum:121,//棋子总数 行*列
         chessmanColor:true,//棋子颜色
         chessWhite:[],//白棋棋子
         chessBlack:[],//黑棋棋子
-        isShow:false,
-        restart:true
+        chessPath:[],//棋子路径
+        chessNums:1,//棋子数
+        isShow:false,//判断胜负后不可继续落子
+        restart:true//重新开始棋局
     },
     methods:{
         chess(e){
-            console.log(typeof (this.chessWhite),this.chessBlack);
             if (e.target.getAttribute('isChess')=='true'){//是否有棋子
-                e.target.innerHTML='<span></span>';
+                e.target.innerHTML='<span>'+(this.chessNums++)+'</span>';//棋子索引
                 this.chessmanColor=!this.chessmanColor;
                 e.target.setAttribute('isChess','false');
+                this.chessPath.push(e.target.getAttribute('index')-0);
                 if (this.chessmanColor) {//白子
                     this.chessWhite.push(e.target.getAttribute('index')-0);
                     e.target.children[0].style.backgroundColor='#fff';
+                    e.target.children[0].style.color='#000';
                 }else {//黑子
                     this.chessBlack.push(e.target.getAttribute('index')-0);
                 }
-                this.arrSort(this.chessWhite);
+                this.arrSort(this.chessWhite);//排序棋子数组
                 this.arrSort(this.chessBlack);
                 if (this.chessmanColor) {//白子
                     this.isWin(this.chessWhite,'白子赢！');
                 }else {//黑子
                     this.isWin(this.chessBlack,'黑子赢！');
+                }
+            }
+        },
+        withdraw(){//悔棋
+            if (this.chessPath.length) {//判断是否有棋子
+                const chessNum=this.chessPath.pop();//获取最后一次落子
+                const oUl=window.document.getElementById('board');
+                oUl.children[chessNum-1].innerHTML='';//清除棋子
+                oUl.children[chessNum-1].setAttribute('isChess','true');//修改为可以落子
+                this.chessNums--;//棋子总数更新
+                if (this.chessmanColor) {//白子
+                    const index=this.chessWhite.indexOf(chessNum);//获取棋子数组索引
+                    if (index>-1) {
+                        this.chessWhite.splice(index,1);//从棋子数组中删除
+                    }
+                }else {//黑子
+                    const index=this.chessBlack.indexOf(chessNum);
+                    if (index>-1) {
+                        this.chessBlack.splice(index,1);
+                    }
+                }
+                this.chessmanColor=!this.chessmanColor;//黑白棋子切换
+                if (this.isShow) {//不可落子状态改为可以
+                    this.isShow=false;
                 }
             }
         },
@@ -79,11 +106,13 @@ let vm=new Vue({
                 }
             }
         },
-        restartChess(){//重新开始
+        restartChess(){//初始化
             this.isShow=false;
             this.chessmanColor=true;
             this.chessWhite=[];
             this.chessBlack=[];
+            this.chessPath=[];
+            this.chessNums=1;
             this.restart=false;
             this.$nextTick(function () {
                 this.restart=true;
